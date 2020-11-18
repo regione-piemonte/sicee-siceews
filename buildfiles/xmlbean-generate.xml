@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    SPDX-License-Identifier: EUPL-1.2
+    Copyright Regione Piemonte - 2020
+ -->
+
+<project basedir=".." default="default" name="xmlbean-generate">
+	<description>Generatore di sorgenti da file XSD tramite XmlBean</description>
+
+	<property file="buildfiles/xmlbean-generate.properties" />
+
+	<property name="cxfsrc" value="build/cxf/src" />
+	<property name="cxfclasses" value="build/cxf/classes" />
+
+	<path id="cxf.classpath">
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="libraryXSD.ref">
+		<fileset dir="./lib">
+			<include name="xmlbeans-2.4.0.jar" />
+		</fileset>
+	</path>
+
+	<path id="libraryWSDL.ref">
+		<fileset dir="./lib">
+			<include name="commons-collections-3.2.jar" />
+			<include name="commons-lang-2.4.jar" />
+			<include name="cxf-2.2.5.jar" />
+			<include name="jaxb-impl-2.1.12.jar" />
+			<include name="jaxb-xjc-2.1.12.jar" />
+			<include name="velocity-1.7.jar" />
+			<include name="wsdl4j-1.6.3.jar" />
+			<include name="XmlSchema-1.4.5.jar" />
+			<include name="neethi-3.0.3.jar" />
+		</fileset>
+	</path>
+
+	<taskdef name="xmlbean" 
+  		   classname="org.apache.xmlbeans.impl.tool.XMLBean" 
+  		   classpathref="libraryXSD.ref" />
+
+	<!--target name="default" depends="clean,init,generaXSDToJava, generaWSDLToJava"/-->
+	<target name="default" depends="clean,init,create-client-cxf-libs"/>
+
+
+	<target name="create-client-cxf-libs">
+
+		<mkdir dir="${cxfsrc}" />
+
+		<echo message="Eseguo WSDLToJava - inizio" />
+
+		<java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+			<arg value="-client"/>
+			<arg value="-d"/>
+			<arg value="${cxfsrc}"/>
+			<!--arg value="./conf/wsdl/CaricamentoAPE.wsdl"/-->
+			<arg value="${wsdl.resources.schema.mdp}"/>
+
+			<classpath>
+				<path refid="libraryWSDL.ref"/>
+			</classpath>
+		</java>
+		<mkdir dir="${cxfclasses}" />
+		<!--javac srcdir="${cxfsrc}" destdir="${cxfclasses}" optimize="false" debug="true" debuglevel="vars,lines,source" compiler="modern" source="1.5" target="1.6" fork="false">
+			<classpath refid="cxf.classpath" />
+		</javac-->
+
+		<echo message="Eseguo WSDLToJava - fine" />
+
+		<echo message="Eseguo generaXSDToJava - inizio" />
+
+		<xmlbean srcgendir="${cxfsrc}" destfile="lib/${xmlbean.generated.jar.name}" javasource="1.5" classpathref="libraryXSD.ref" includeJavaRuntime="yes" >
+
+
+			<fileset dir="${xsd.resources.path}" includes="${xsd.schema.listfiles}"  />
+		</xmlbean>
+
+		<!--xmlbean srcgendir="${cxfsrc}" destfile="lib/${xmlbean.generated.jar.name}" javasource="1.5" classpathref="libraryXSD.ref" includeJavaRuntime="yes">
+
+
+			<fileset dir="${xsd.resources.path}" includes="${xsd.schema.listfiles}" />
+		</xmlbean-->
+		<echo message="Eseguo generaXSDToJava - fine" />
+
+
+		<!--echo message="creazione lib" />
+
+		<jar jarfile="dist/wsape-client-cxf-1.0.0.jar" basedir="${cxfclasses}" includes="**/*.*" /-->
+
+	</target>
+
+
+	<target name="generaXSDToJava">
+		<xmlbean  			
+  			srcgendir="${xmlbean.src.generated.dir}"
+  			destfile="lib/${xmlbean.generated.jar.name}"
+  			javasource="1.5"
+  			classpathref="libraryXSD.ref" 
+  			includeJavaRuntime="yes"
+  		>
+			<fileset dir="${xsd.resources.path}" includes="${xsd.schema.listfiles}"/>
+		</xmlbean>
+	</target>
+
+	<target name="generaWSDLToJava">
+		<java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+			<arg value="-client"/>
+			<arg value="-d"/>
+			<arg value="src"/>
+			<!--arg value="./conf/wsdl/CaricamentoAPE.wsdl"/-->
+			<arg value="${wsdl.resources.schema.mdp}"/>
+
+			<classpath>
+				<path refid="libraryWSDL.ref"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="init">
+		<mkdir dir="${cxfsrc}" />
+	</target>
+
+	<!--  -->
+	<target name="clean">
+		<delete dir="${cxfsrc}" />
+	</target>
+
+</project>

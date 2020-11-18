@@ -1,0 +1,113 @@
+<!--
+    SPDX-License-Identifier: EUPL-1.2
+    Copyright Regione Piemonte - 2020
+ -->
+<ivy-module version="1.0">
+
+	<info organisation="csipiemonte" module="siceemdpnew" />
+
+	<dependencies>
+
+
+		<!-- (per generazione JAXB & CXF) -->
+		<dependency org="others" name="wsdl4j" rev="1.6.3" />
+		<dependency org="apache" name="geronimo-javamail" rev="1.4">
+			<artifact name="geronimo-javamail_1.4_spec-1.7.1" type="jar" />
+		</dependency>
+		<dependency org="others" name="jboss" rev="eap-6.2">
+			<artifact name="jboss-interceptors-api_1.1_spec-1.0.1.Final-redhat-2"
+				type="jar" />
+			<artifact name="jboss-ejb-api_3.1_spec-1.0.2.Final-redhat-2"
+				type="jar" />
+			<exclude name="hibernate-jpa-2.0-api-1.0.1.Final-redhat-2" />
+			<exclude name="javax.inject-1.redhat-4" />
+			<exclude name="jboss-jaxrpc-api_1.1_spec-1.0.1.Final-redhat-3" />
+			<exclude name="jboss-jaxrs-api_1.1_spec-1.0.1.Final-redhat-2" />
+			<exclude name="jboss-servlet-api_3.0_spec-1.0.2.Final-redhat-1" />
+			<exclude name="mail-1.4.5-redhat-1" />
+		</dependency>
+
+		<dependency org="apache" name="commons-codec" rev="1.6">
+			<artifact name="commons-codec-1.6" type="jar" />
+		</dependency>
+
+		<dependency org="apache" name="log4j" rev="1.2.14" />
+		<dependency rev="4.7" name="junit" org="others" />
+
+		<dependency org="others" name="hibernate-jpa-2.1-api" rev="1.0.0.Final" />
+
+
+		<dependency org="csipiemonte" name="util-perf" rev="1.0.0" />
+		<dependency org="apache" name="commons-lang" rev="2.6" />
+
+		<dependency org="csipiemonte" name="csi" rev="1.4.5" >
+			<artifact name="csi-stadapter-1.4.5" type="jar"/>
+		</dependency>
+
+		<dependency org="redhat" name="jboss-annotations-api_1.1_spec"
+			rev="1.0.1.Final-redhat-3">
+			<artifact name="jboss-annotations-api_1.1_spec-1.0.1.Final-redhat-3"
+				type="jar" />
+		</dependency>
+		<dependency org="redhat" name="jboss-ejb3-ext-api" rev="2.1.0.redhat-1">
+			<artifact name="jboss-ejb3-ext-api-2.1.0.redhat-1" type="jar" />
+		</dependency>
+
+
+		<dependency org="others" name="hibernate" rev="4.3.2.Final">
+			<artifact name="hibernate-entitymanager-4.3.2.Final" type="jar" />
+		</dependency>
+
+		<!-- dipendenze necessarie per il PDPAServiceConnector [MDPNEW_CORE] -->
+		<dependency org="csipiemonte" name="mdpnew-client" rev="4.0.0">
+			<artifact name="mdpcoreinterfaces-4.0.0" type="jar" />
+		</dependency>
+
+		<!-- per generazione WSDLToJava -->
+		<dependency org="apache" name="cxf" rev="2.2.5" >
+			<artifact name="cxf-2.2.5" type="jar" />
+		</dependency>
+		
+		<dependency org="apache" name="velocity" rev="1.7" >
+			<artifact name="velocity-1.7" type="jar" />
+		</dependency>
+		
+		<dependency org="apache" name="commons-collections" rev="3.2" >
+				   <artifact name="commons-collections-3.2" type="jar" />
+		</dependency>
+		
+		<dependency org="sun" name="jaxb" rev="2.1.12" >
+ 			<artifact name="jaxb-impl-2.1.12" type="jar" />
+ 			<artifact name="jaxb-xjc-2.1.12" type="jar" />
+		</dependency>
+		
+		<dependency org="others" name="xmlschema" rev="1.4.5" >
+ 			<artifact name="XmlSchema-1.4.5" type="jar" />
+		</dependency>
+		
+		<dependency org="apache" name="commons-lang" rev="2.4" >
+ 			<artifact name="commons-lang-2.4" type="jar" />
+		</dependency>
+
+		<!-- per generare le classi STUB del wsdl di siceews -->
+		<dependency org="apache" name="axis-ant" rev="1.4" >
+ 			<artifact name="axis-ant-1.4" type="jar" />
+		</dependency>
+		<dependency org="apache" name="axis" rev="1.4" >
+ 			<artifact name="axis-jaxrpc-1.4" type="jar" />
+		</dependency>
+
+		<dependency org="csipiemonte" name="axiscsi" rev="1.0.0" >
+ 			<artifact name="axis-1.4.csi-1.0.0" type="jar" />
+		</dependency>
+
+		<!-- per generazione da XSD -->
+	  	<dependency org="others" name="xmlbeans" rev="2.4.0">
+		   <artifact name="xmlbeans-2.4.0" type="jar" />
+	  	</dependency>
+
+		 <conflict org="apache" module="commons-collections" manager="all" />
+		 <conflict org="apache" module="commons-lang" manager="all" />
+	</dependencies>
+
+</ivy-module>
